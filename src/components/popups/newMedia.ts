@@ -57,7 +57,7 @@ import SelectedEffect from '../chat/selectedEffect';
 import PopupMakePaid from './makePaid';
 import paymentsWrapCurrencyAmount from '../../helpers/paymentsWrapCurrencyAmount';
 import Icon from '../icon';
-import { ImageEditor } from '../imageEditor/editor/imageEditor';
+import {ImageEditor} from '../imageEditor/editor/imageEditor';
 
 type SendFileParams = SendFileDetails & {
   file?: File,
@@ -897,7 +897,7 @@ export default class PopupNewMedia extends PopupElement {
         const popupMediaOptions = document.createElement('div');
         popupMediaOptions.classList.add('popup-media-options');
         itemDiv.appendChild(popupMediaOptions);
-  
+
         const parent = document.body;
         const enhanceButton = Icon('enhance', 'action');
         enhanceButton.addEventListener('click', () => {
@@ -915,7 +915,7 @@ export default class PopupNewMedia extends PopupElement {
         popupMediaOptions.append(enhanceButton);
         popupMediaOptions.append(Icon('mediaspoiler', 'action'));
         popupMediaOptions.append(Icon('delete', 'action'));
-      } 
+      }
     }
   }
 

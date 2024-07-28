@@ -1,7 +1,7 @@
 export interface Editor {
     readonly icon: Icon;
     readonly element: HTMLElement;
-    
+
     /**
      * Display the image on WebGL canvas in original image ratio
      * ignoring any override if set.
@@ -13,7 +13,7 @@ export interface Editor {
     onOpen(): void;
     onCanvasResize(width: number, height: number): void;
 
-    /** 
+    /**
      * Called when overlay canvas should be redrawn,
      * for example after changing it's display type).
      * The method should return true if the canvas is not

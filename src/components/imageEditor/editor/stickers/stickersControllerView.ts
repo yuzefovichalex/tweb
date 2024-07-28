@@ -1,27 +1,25 @@
-import { Editor } from "../editor";
+import {Editor} from '../editor';
 
 export class StickerControllerView implements Editor {
+  readonly icon: Icon = 'emoji';
 
-    readonly icon: Icon = 'emoji';
+  readonly useOriginalRatio: boolean = false;
 
-    readonly useOriginalRatio: boolean = false;
+  readonly showCanvasOnly: boolean = false;
 
-    readonly showCanvasOnly: boolean = false;
+  readonly element: HTMLElement;
 
-    readonly element: HTMLElement;
+  onCanvasResize(width: number, height: number): void { }
 
-    onCanvasResize(width: number, height: number): void { }
+  onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {
+    return false;
+  }
 
-    onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {
-        return false;
-    }
+  onOpen(): void { }
 
-    onOpen(): void { }
+  onClose(): void { }
 
-    onClose(): void { }
+  onCompose(resultCanvas: HTMLCanvasElement) {
 
-    onCompose(resultCanvas: HTMLCanvasElement) {
-        
-    }
-
+  }
 }
