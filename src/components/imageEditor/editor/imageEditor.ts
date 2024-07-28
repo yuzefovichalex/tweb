@@ -11,6 +11,8 @@ import {StickerControllerView} from './stickers/stickersControllerView';
 import Icon from '../../icon';
 import ButtonIcon from '../../buttonIcon';
 
+type EditorAction = {editor: Editor, extra: any};
+
 export class ImageEditor implements CanvasController, AdjustListener, TransformListener {
   private parent: HTMLElement | null = null;
   private url: string;
@@ -62,6 +64,8 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
   private editorTabs: Array<HTMLButtonElement> = [];
   private selectedEditorTab: HTMLElement | null = null;
   private tabIndicator: HTMLElement | null = null;
+
+  private recordedActions: Array<EditorAction> = [];
 
   constructor(
     url: string,
@@ -136,9 +140,10 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
     editPanelNavBar.appendChild(navBarTitle);
 
     const undoButton = ButtonIcon('undo edit-panel-icon-button');
+    undoButton.addEventListener('click', () => { this.undo() });
     editPanelNavBar.appendChild(undoButton);
 
-    const redoButton = ButtonIcon('redo edit-panel-icon-button')
+    const redoButton = ButtonIcon('redo edit-panel-icon-button');
     editPanelNavBar.appendChild(redoButton);
 
     const editPanelTabs = document.createElement('div');
@@ -568,5 +573,19 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
     editingImageContainer.style.height = '100%'
     editingImageContainer.style.top = '0';
     this.getBottomControlsContainer().style.display = 'none';
+  }
+
+  saveEditorAction(editor: Editor, extra: any): void {
+    const editorAction = {editor: editor, extra: extra};
+    this.recordedActions.push(editorAction);
+  }
+
+  private undo() {
+    if(!this.recordedActions.length) {
+      return;
+    }
+
+    const lastAction = this.recordedActions.pop();
+    lastAction.editor.onRestoreLastState(lastAction.extra);
   }
 }

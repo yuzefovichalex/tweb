@@ -20,6 +20,8 @@ export class StickerControllerView implements Editor {
 
   onImageLoad(ratio: number): void { }
 
+  onRestoreLastState(extra: any): void { }
+
   onCanvasResize(width: number, height: number): void { }
 
   onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {

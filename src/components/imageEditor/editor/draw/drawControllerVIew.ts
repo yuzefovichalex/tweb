@@ -381,6 +381,7 @@ export class DrawControllerView implements Editor {
       this.lines.push(currentDrawnLine);
       this.currentDrawnLine = null;
       this.invalidate();
+      this.canvasController.saveEditorAction(this, null);
     }
   }
 
@@ -398,6 +399,11 @@ export class DrawControllerView implements Editor {
       line.draw(context);
     }
     this.currentDrawnLine?.draw(context);
+  }
+
+  onRestoreLastState(extra: any): void {
+    this.lines.pop();
+    this.invalidate();
   }
 
   onImageLoad(ratio: number): void { }

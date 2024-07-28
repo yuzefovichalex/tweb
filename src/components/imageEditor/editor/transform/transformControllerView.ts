@@ -296,6 +296,8 @@ export class TransformControllerView implements Editor {
     return angleScroller;
   }
 
+  onRestoreLastState(extra: any): void { }
+
   onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {
     return false;
   }

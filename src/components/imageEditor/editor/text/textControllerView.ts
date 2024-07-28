@@ -276,6 +276,8 @@ export class TextControllerView implements Editor {
     editingImageContainer.appendChild(editableField.element);
     this.addedFields.push(editableField);
     this.selectEditableField(editableField);
+
+    this.canvasController.saveEditorAction(this, null);
   }
 
   private selectEditableField(field: EditableField) {
@@ -313,6 +315,11 @@ export class TextControllerView implements Editor {
   onImageLoad(ratio: number): void { }
 
   onCanvasResize(width: number, height: number): void { }
+
+  onRestoreLastState(extra: any): void {
+    const removingField = this.addedFields.pop();
+    this.canvasController.getEditingImageContainer().removeChild(removingField.element);
+  }
 
   onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {
     return false;

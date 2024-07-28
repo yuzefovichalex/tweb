@@ -13,6 +13,7 @@ export interface Editor {
     onImageLoad(ratio: number): void;
     onOpen(): void;
     onCanvasResize(width: number, height: number): void;
+    onRestoreLastState(extra: any): void;
 
     /**
      * Called when overlay canvas should be redrawn,

@@ -44,6 +44,8 @@ export class AdjustControllerView implements Editor {
 
   readonly element: HTMLDivElement;
 
+  private saveActionTimeoutId: any;
+
   constructor(
     canvasController: CanvasController,
     adjustListener: AdjustListener
@@ -64,17 +66,43 @@ export class AdjustControllerView implements Editor {
 
   private updateParams(
     params: {
-            enhancement?: number,
-            brightness?: number,
-            contrast?: number,
-            saturation?: number,
-            warmth?: number,
-            fade?: number,
-            highlights?: number,
-            shadows?: number,
-            vignette?: number
-        }
+      enhancement?: number,
+      brightness?: number,
+      contrast?: number,
+      saturation?: number,
+      warmth?: number,
+      fade?: number,
+      highlights?: number,
+      shadows?: number,
+      vignette?: number
+    },
+    recordState: boolean = true
   ) {
+    // if(recordState) {
+    //   const saveActionTimeoutId = this.saveActionTimeoutId;
+    //   if(saveActionTimeoutId) {
+    //     clearTimeout(saveActionTimeoutId);
+    //   }
+
+    //   const copy = new AdjustParams()
+    //   copy.enhancement = this.coloringParams.enhancement;
+    //   copy.brightness = this.coloringParams.enhancement;
+    //   copy.contrast = this.coloringParams.enhancement;
+    //   copy.saturation = this.coloringParams.enhancement;
+    //   copy.warmth = this.coloringParams.enhancement;
+    //   copy.fade = this.coloringParams.enhancement;
+    //   copy.highlights = this.coloringParams.enhancement;
+    //   copy.shadows = this.coloringParams.enhancement;
+    //   copy.vignette = this.coloringParams.vignette;
+
+    //   this.saveActionTimeoutId = setTimeout(() => {
+    //     this.canvasController.saveEditorAction(this, copy);
+    //     console.log(copy);
+    //   }, 2000);
+    // } else {
+    //   console.log('called without reset');
+    // }
+
     this.coloringParams.enhancement = params.enhancement ?? this.coloringParams.enhancement;
     this.coloringParams.brightness = params.brightness ?? this.coloringParams.brightness;
     this.coloringParams.contrast = params.contrast ?? this.coloringParams.contrast;
@@ -91,6 +119,21 @@ export class AdjustControllerView implements Editor {
   onImageLoad(ratio: number): void { }
 
   onCanvasResize(width: number, height: number): void { }
+
+  onRestoreLastState(extra: any): void {
+    const params = extra as AdjustParams;
+    this.updateParams({
+      enhancement: params.enhancement,
+      brightness: params.brightness,
+      contrast: params.contrast,
+      saturation: params.saturation,
+      warmth: params.warmth,
+      fade: params.fade,
+      highlights: params.highlights,
+      shadows: params.shadows,
+      vignette: params.vignette
+    }, false);
+  }
 
   onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {
     return false;
