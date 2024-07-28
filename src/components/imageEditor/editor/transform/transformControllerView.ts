@@ -57,7 +57,7 @@ export class TransformControllerView implements Editor {
   private readonly minRatio: number = 9 / 16;
   private readonly maxRatio: number = 16 / 9;
 
-  private readonly originalRatio: number;
+  originalRatio: number = 1;
   private selectedRatio: number = -1;
 
   private canvasController: CanvasController;
@@ -85,11 +85,9 @@ export class TransformControllerView implements Editor {
   readonly element: HTMLElement;
 
   constructor(
-    originalRatio: number,
     canvasController: CanvasController,
     transformListener: TransformListener
   ) {
-    this.originalRatio = originalRatio;
     this.canvasController = canvasController;
     this.transformListener = transformListener;
     this.element = this.build();
@@ -204,6 +202,14 @@ export class TransformControllerView implements Editor {
     this.transformListener.onTransformParamsUpdate(this.transformParams);
   }
 
+  onImageLoad(ratio: number): void {
+    this.originalRatio = ratio;
+    this.selectedRatio = ratio;
+    this.primaryRatioButtons[0].tag = ratio;
+    this.primaryRatioButtons[1].tag = ratio;
+    this.invalidateWorkingZoneControllers();
+  }
+
   onCanvasResize(width: number, height: number) {
     this.canvasWidth = width;
     this.canvasHeight = height;
@@ -237,12 +243,12 @@ export class TransformControllerView implements Editor {
       canvasWidth,
       canvasHeight,
       canvasWidth / canvasHeight,
-      3 / 4
+      this.originalRatio
     );
     const cropFrameParams = MathUtils.calculateRectanleRelativeDimensions(
       imageParams.width,
       imageParams.height,
-      3 / 4,
+      this.originalRatio,
       this.selectedRatio
     );
     const cropFrameWidth = cropFrameParams.width;

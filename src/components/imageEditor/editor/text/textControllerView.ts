@@ -310,6 +310,8 @@ export class TextControllerView implements Editor {
     }
   }
 
+  onImageLoad(ratio: number): void { }
+
   onCanvasResize(width: number, height: number): void { }
 
   onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {

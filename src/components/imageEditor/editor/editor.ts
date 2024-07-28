@@ -10,6 +10,7 @@ export interface Editor {
 
     readonly showCanvasOnly: boolean;
 
+    onImageLoad(ratio: number): void;
     onOpen(): void;
     onCanvasResize(width: number, height: number): void;
 

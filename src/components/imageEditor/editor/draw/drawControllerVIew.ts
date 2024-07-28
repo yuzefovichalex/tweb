@@ -400,6 +400,8 @@ export class DrawControllerView implements Editor {
     this.currentDrawnLine?.draw(context);
   }
 
+  onImageLoad(ratio: number): void { }
+
   onCanvasResize(width: number, height: number): void { }
 
   onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {

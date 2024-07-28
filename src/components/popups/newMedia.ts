@@ -903,14 +903,17 @@ export default class PopupNewMedia extends PopupElement {
         enhanceButton.addEventListener('click', () => {
           const imageEditor = new ImageEditor(
             params.objectURL,
+            file.type,
             (data: Blob) => {
               params.scaledBlob = data;
               params.objectURL = URL.createObjectURL(data);
               img.src = params.objectURL;
               imageEditor.close();
-            }
+            },
+            () => { (this.btnConfirmOnEnter as HTMLButtonElement).disabled = false; }
           );
           imageEditor.open(parent);
+          (this.btnConfirmOnEnter as HTMLButtonElement).disabled = true;
         });
         popupMediaOptions.append(enhanceButton);
         popupMediaOptions.append(Icon('mediaspoiler', 'action'));

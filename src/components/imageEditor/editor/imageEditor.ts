@@ -14,7 +14,9 @@ import ButtonIcon from '../../buttonIcon';
 export class ImageEditor implements CanvasController, AdjustListener, TransformListener {
   private parent: HTMLElement | null = null;
   private url: string;
+  private mimeType: string;
   private onEditDone: (data: Blob) => any;
+  private onClose: () => any;
 
   private root: HTMLElement;
   private mainCanvas: HTMLCanvasElement;
@@ -51,19 +53,26 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
 
   private editors: Array<Editor> = new Array<Editor>(
     new AdjustControllerView(this, this),
-    new TransformControllerView(3 / 4, this, this),
+    new TransformControllerView(this, this),
     new TextControllerView(this),
     new DrawControllerView(this),
     new StickerControllerView()
   );
   private selectedEditor: Editor | null = null;
+  private editorTabs: Array<HTMLButtonElement> = [];
+  private selectedEditorTab: HTMLElement | null = null;
+  private tabIndicator: HTMLElement | null = null;
 
   constructor(
     url: string,
-    onEditDone: (data: Blob) => any
+    mimeType: string,
+    onEditDone: (data: Blob) => any,
+    onClose: () => any
   ) {
     this.url = url;
+    this.mimeType = mimeType;
     this.onEditDone = onEditDone;
+    this.onClose = onClose;
 
     this.mainCanvas = this.createMainCanvas();
     this.glContext = this.mainCanvas.getContext('webgl', {preserveDrawingBuffer: true});
@@ -140,7 +149,13 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
       const editorTab = ButtonIcon(`${editor.icon} edit-panel-icon-button`);
       editorTab.addEventListener('click', () => { this.selectEditor(idx) });
       editPanelTabs.appendChild(editorTab);
+      this.editorTabs.push(editorTab);
     });
+
+    const tabIndicator = document.createElement('div');
+    tabIndicator.classList.add('edit-panel-tab-indicator');
+    editPanelTabs.appendChild(tabIndicator);
+    this.tabIndicator = tabIndicator;
 
     const saveMediaButton = document.createElement('button');
     saveMediaButton.classList.add('save-media-button');
@@ -223,13 +238,20 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
 
   private loadImage() {
     this.image.addEventListener('load', () => {
-      this.originalRatio = this.image.width / this.image.height;
-      this.ratio = this.originalRatio;
+      this.setRatio(this.image.width / this.image.height);
       this.resize();
       this.loadTexture(this.image);
       this.draw();
     });
     this.image.src = this.url;
+  }
+
+  private setRatio(ratio: number) {
+    this.originalRatio = ratio;
+    this.ratio = ratio;
+    for(const editor of this.editors) {
+      editor.onImageLoad(ratio);
+    }
   }
 
   private selectEditor(idx: number) {
@@ -258,6 +280,22 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
     this.editPanel.appendChild(newEditor.element);
     newEditor.onOpen();
     this.selectedEditor = newEditor;
+
+    this.selectedEditorTab?.classList.remove('active');
+    const newTab = this.editorTabs[idx];
+    newTab.classList.add('active');
+    this.selectedEditorTab = newTab;
+
+    const tabIndicator = this.tabIndicator;
+    if(tabIndicator) {
+      let offset = newTab.offsetLeft;
+      if(offset === 0) {
+        offset = 20;
+      } else {
+        offset += 8;
+      }
+      tabIndicator.style.left = `${offset}px`;
+    }
   }
 
   private loadTexture(image: HTMLImageElement) {
@@ -344,7 +382,6 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
 
     const angleRad = MathUtils.toRadians(Math.abs(this.rotation));
     const scale = Math.cos(angleRad) + 1 / this.ratio * Math.sin(angleRad);
-    console.log(scale);
 
     let transformMatrix = MatrixUtils.vertexProjectionM(gl.canvas.width, gl.canvas.height);
     if(this.useOriginalRatio) {
@@ -488,7 +525,7 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
     }
     context.drawImage(resultOverlayCanvas, 0, 0);
 
-    resultCanvas.toBlob((blob: Blob) => { this.onEditDone(blob) });
+    resultCanvas.toBlob((blob: Blob) => { this.onEditDone(blob) }, this.mimeType);
   }
 
   open(parent: HTMLElement) {
@@ -504,6 +541,7 @@ export class ImageEditor implements CanvasController, AdjustListener, TransformL
 
     parent.removeChild(this.root);
     this.parent = null;
+    this.onClose();
   }
 
   getEditingImageContainer(): HTMLDivElement {

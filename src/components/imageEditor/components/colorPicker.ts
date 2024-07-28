@@ -436,7 +436,7 @@ export class ColorPicker {
     saturationSlider.style.backgroundColor = `hsl(${this.hue}, 100%, 50%)`;
 
     const translationX = (this.saturation / 100) * (saturationSlider.clientWidth - saturationSliderIndicator.clientWidth) - 1;
-    const translationY = ((100 - this.value) / 100) * (saturationSlider.clientHeight- saturationSliderIndicator.clientHeight) - 1;
+    const translationY = ((100 - this.value) / 100) * (saturationSlider.clientHeight - saturationSliderIndicator.clientHeight) - 1;
     saturationSliderIndicator.style.transform = `translate(${translationX}px, ${translationY}px)`;
   }
 }

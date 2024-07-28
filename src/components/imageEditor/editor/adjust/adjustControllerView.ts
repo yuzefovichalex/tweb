@@ -88,6 +88,8 @@ export class AdjustControllerView implements Editor {
     this.coloringListener.onColoringParamsUpdate(this.coloringParams);
   }
 
+  onImageLoad(ratio: number): void { }
+
   onCanvasResize(width: number, height: number): void { }
 
   onOverlayCanvasInvalidate(isCanvasEmpty: boolean): boolean {
