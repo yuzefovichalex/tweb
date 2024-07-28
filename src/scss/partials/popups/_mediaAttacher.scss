@@ -329,3 +329,42 @@
     margin-inline-start: -4px;
   }
 }
+
+.popup-media-options {
+  width: 112px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #00000033;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-50%, 0) scale(.7);
+  transition: ease-in-out .3s;
+
+  .action {
+    color: #FFFFFFCC;
+    font-size: 20px;
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .action:hover {
+    color: #FFFFFF;
+  }
+}
+
+.popup-item-media:hover .popup-media-options {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}

@@ -384,8 +384,15 @@
 
 @import "components/prism";
 @import "tgico";
+@import "fonts/avenirNext";
+@import "fonts/courierNew";
+@import "fonts/georgia";
+@import "fonts/noteworthy";
+@import "fonts/papyrus";
 @import "fonts/roboto";
 @import "fonts/robotoMono";
+@import "fonts/snellbt";
+@import "fonts/typewriter";
 @import "partials/input";
 @import "partials/button";
 @import "partials/table";
@@ -450,6 +457,12 @@
 @import "partials/similarChannels";
 @import "partials/tooltip";
 @import "partials/topbarSearch";
+@import "partials/imageEditor";
+@import "partials/slider2";
+@import "partials/selectableButton";
+@import "partials/angleScroller";
+@import "partials/colorPicker2";
+@import "partials/editableField";
 
 @import "partials/popups/popup";
 @import "partials/popups/editAvatar";

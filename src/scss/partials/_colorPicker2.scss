@@ -1,0 +1,89 @@
+.color-picker-toggle-container {
+    width: 100%;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.color-picker-toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: var(--color-picker-toggle-color, '#FFFFFF');
+    cursor: pointer;
+    transition: .2s ease-in-out;
+}
+
+.color-picker-toggle.selected {
+    box-shadow: 0 0 0 10px var(--color-picker-toggle-shadow-color, '#FFFFFF1A');
+}
+
+.color-picker-hue-slider {
+    flex-grow: 1;
+    height: 20px;
+    border-radius: 10px;
+    background: linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red);
+    cursor: pointer;
+}
+
+.color-picker-palette-container {
+    width: 100%;
+    margin-top: 24px;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.color-picker-saturation-slider {
+    flex-basis: 60%;
+    height: 120px;
+    border-radius: 11px;
+    background: linear-gradient(to top, #000000, transparent), linear-gradient(to right, #FFFFFF, rgba(255, 255, 255, 0));
+    cursor: pointer;
+}
+
+.color-picker-slider-indicator {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+    position: absolute;
+    cursor: pointer;
+    pointer-events: pointer;
+}
+
+.color-picker-slider-indicator.hue {
+    transform: translate(0, -1px);
+}
+
+.color-picker-slider-indicator.saturation {
+    transform: translate(-50%, -50%);
+}
+
+.color-picker-inputs-container {
+    flex-basis: 40%;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.color-picker-input {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid #383838;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.color-picker-input:focus {
+    outline: none !important;
+    border: 2px solid #4E8EE5;
+}

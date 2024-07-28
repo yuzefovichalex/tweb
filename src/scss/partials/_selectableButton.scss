@@ -1,0 +1,29 @@
+.selectable-button {
+    width: 100%;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.selectable-button.selected {
+    background-color: #2B2B2B;
+}
+
+.selectable-button-icon {
+    color: #FFFFFF;
+    font-size: 24px;
+    cursor: inherit;
+}
+
+.selectable-button-text {
+    flex-grow: 1;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: inherit;
+}

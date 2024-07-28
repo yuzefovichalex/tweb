@@ -1,0 +1,39 @@
+.angle-scroller {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: grab;
+}
+
+.angle-scroller:active {
+    cursor: grabbing;
+}
+
+.transform-angle-scroller-container {
+    position: absolute;
+    width: 60%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.transform-angle-scroller-container:before,
+.transform-angle-scroller-container:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.transform-angle-scroller-container:before {
+    left: -1px;
+    background: linear-gradient(to right, #000000, transparent);
+}
+
+.transform-angle-scroller-container:after {
+    right: -1px;
+    background: linear-gradient(to right, transparent, #000000);
+}

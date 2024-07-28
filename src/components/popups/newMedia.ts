@@ -56,6 +56,8 @@ import {Accessor, createRoot, createSignal, Setter} from 'solid-js';
 import SelectedEffect from '../chat/selectedEffect';
 import PopupMakePaid from './makePaid';
 import paymentsWrapCurrencyAmount from '../../helpers/paymentsWrapCurrencyAmount';
+import Icon from '../icon';
+import { ImageEditor } from '../imageEditor/editor/imageEditor';
 
 type SendFileParams = SendFileDetails & {
   file?: File,
@@ -891,7 +893,29 @@ export default class PopupNewMedia extends PopupElement {
             };
           })
         ]).then(() => {});
-      }
+      } else {
+        const popupMediaOptions = document.createElement('div');
+        popupMediaOptions.classList.add('popup-media-options');
+        itemDiv.appendChild(popupMediaOptions);
+  
+        const parent = document.body;
+        const enhanceButton = Icon('enhance', 'action');
+        enhanceButton.addEventListener('click', () => {
+          const imageEditor = new ImageEditor(
+            params.objectURL,
+            (data: Blob) => {
+              params.scaledBlob = data;
+              params.objectURL = URL.createObjectURL(data);
+              img.src = params.objectURL;
+              imageEditor.close();
+            }
+          );
+          imageEditor.open(parent);
+        });
+        popupMediaOptions.append(enhanceButton);
+        popupMediaOptions.append(Icon('mediaspoiler', 'action'));
+        popupMediaOptions.append(Icon('delete', 'action'));
+      } 
     }
   }
 
